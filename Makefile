@@ -12,6 +12,8 @@
 
 NAME = ft_ssl
 
+INC = -I ./ft_printf/headers/ -I ./headers/
+
 SRC = main.c
 
 SRCDIR = sources/
@@ -22,26 +24,27 @@ OBJ =  $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 FLAGS = -Wall -Wextra -Werror
 
-LIBFTPRINTF = libftprintf.a
+LIBFTPRINTF = ft_printf/libftprintf.a
 
 all: $(NAME)
 
 $(NAME): $(LIBFTPRINTF) $(OBJDIR) $(OBJ)
-	@gcc $(OBJ) ft_printf/libftprintf.a -o $(NAME)
+	@gcc $(OBJ) $(LIBFTPRINTF) -o $(NAME)
 	@echo project DONE
 
 $(LIBFTPRINTF):
 	@echo make ft_printf
-	make -C ft_printf
+	@make -C ft_printf
 
 $(OBJDIR):
 	@mkdir $(OBJDIR)
 
 $(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
-	gcc $(FLAGS) -I headers/ -c $< -o $@
+	gcc $(FLAGS) $(INC) -c $< -o $@
 
-comp:
-	@gcc -g $(FLAGS) $(addprefix $(SRCDIR), $(SRC)) ft_printf/$(LIBFTPRINTF) -I.headers/ -o debug
+debug:
+	@rm -f debug
+	@gcc -g $(FLAGS) $(INC) $(LIBFTPRINTF) $(addprefix $(SRCDIR), $(SRC)) -o debugFile
 
 norm:
 	norminette -R CheckForbiddenSourceHeader
