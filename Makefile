@@ -14,7 +14,7 @@ NAME = ft_ssl
 
 INC = -I ./ft_printf/headers/ -I ./headers/
 
-SRC = main.c
+SRC = main.c ft_ssl.c
 
 SRCDIR = sources/
 
@@ -44,7 +44,7 @@ $(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
 
 debug:
 	@rm -f debug
-	@gcc -g $(FLAGS) $(INC) $(LIBFTPRINTF) $(addprefix $(SRCDIR), $(SRC)) -o debugFile
+	@gcc -g $(FLAGS) $(INC) $(addprefix $(SRCDIR), $(SRC)) $(LIBFTPRINTF) -o debugFile
 
 norm:
 	norminette -R CheckForbiddenSourceHeader
