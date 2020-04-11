@@ -2,15 +2,8 @@
 
 int	main(int argc, char **argv)
 {
-	t_command command;
-
-	if (argc < 2)
-		return 0; //todo: error
-	if (init_command(argv, &command))
-		return -1; //todo: error
-	ft_printf("{%d}", command.flags);
-
-
 	(void)argc;
-	return 0;
+	if (argc < 2)
+		ERROR_RET(ERR_USAGE)
+	return ft_ssl(argv);
 }

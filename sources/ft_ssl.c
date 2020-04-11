@@ -1,40 +1,79 @@
 #include "ft_ssl.h"
 
-int	init_command(char **argv, t_command* cmd)
+int ft_ssl(char **argv)
 {
+	t_command command;
+
 	if (!argv)
 		return -1;
-	cmd->name = ft_strdup(argv[1]);
-	cmd->flags = get_flags(argv);
+	if (init_command(argv, &command))
+		return -1;
+	//while
+	//get_flags
+	//input
+
+	//only files (using flags)
+
+	return 0;
+}
+
+int	init_command(char **argv, t_command* cmd)
+{
+	t_hash	hash;
+
+	hash = hash_by_name(argv[1]);
+	if (hash.name)
+		cmd->hash = hash;
+	else
+	{
+		ERROR_RET("") //todo
+	}
 	return 0;
 }
 
 short	get_flags(char **argv)
 {
-	char *str;
-	short flags;
-	int i;
+	char	*str;
+	short	flags;
+	int		i;
 
 	flags = 0;
 	i = 2;
-	while ((str = argv[i]))
+	while ((str = argv[i++]))
 	{
-		if (!str[0] || str[0] != '-')
-		//todo: error
-			return flags;
-		str++;
-		if (!ft_strcmp("p", str))
-			flags |= FLAG_P;
-		else if (!ft_strcmp("q", str))
-			flags |= FLAG_Q;
-		else if (!ft_strcmp("r", str))
-			flags |= FLAG_R;
-		else if (!ft_strcmp("s", str))
-			flags |= FLAG_S;
+		if (str++[0] == '-')
+		{
+			if (!ft_strcmp("p", str))
+				flags |= FLAG_P;
+			else if (!ft_strcmp("q", str))
+				flags |= FLAG_Q;
+			else if (!ft_strcmp("r", str))
+				flags |= FLAG_R;
+			else if (!ft_strcmp("s", str))
+				flags |= FLAG_S;
+			else //todo: error
+				return flags;
+		}
 		else
 			//todo: error
 			return flags;
-		i++;
 	}
 	return flags;
+}
+
+t_hash	hash_by_name(char* cmd_name)
+{
+	size_t	i;
+	t_hash hash_arr[N] = { //todo: N = size
+ 		{ "md5", &ft_ssl_md5 }, //todo: includes, copy
+	// { "ssh256", &ft_ssl_ssh256 };
+		{ NULL, NULL }
+	}
+	i = 0;
+	while(hash_arr[i]->name)
+	{
+		if (!ft_strcmp(cmd_name, hash_arr[i]->name))
+			return hash_arr[i];
+	}
+	return hash_arr[i];
 }
