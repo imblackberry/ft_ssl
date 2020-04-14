@@ -1,35 +1,47 @@
 #include "ft_ssl.h"
 
-int ft_ssl(char **argv)
+static const char	*g_hash_name[N_HASH] = { "md5", "sha256"};
+
+bool ft_ssl(char **argv)
 {
-	t_command command;
+	t_command	cmd;
+	t_hash_f	hash_function;
 
 	if (!argv)
-		return -1;
-	if (init_command(argv, &command))
-		return -1;
-	//while
+		return false;
+	if (set_hash_type(argv[1], &(cmd.hash_type)) == false)
+		ERROR_RET("error") //todo
+	hash_function = find_hash_function(cmd.hash_type);
+	if (launch(&cmd, hash_function, argv) == false)
+		return false;
+	// while ()
+	// {
+
+	// 	hash_function(&cmd);
+	// }
 	//get_flags
 	//input
-	command.hash.function(&command);
 
 	//only files (using flags)
 
 	return 0;
 }
 
-int	init_command(char **argv, t_command* cmd)
+bool	launch(t_command *cmd, t_hash_f hash_function, char **argv)
 {
-	t_hash	hash;
 
-	hash = hash_by_name(argv[1]);
-	if (hash.name)
-		cmd->hash = hash;
-	else
-	{
-		ERROR_RET("error") //todo
-	}
-	return 0;
+
+}
+
+bool	set_hash_type(char *name, t_hash_type *type)
+{
+	size_t i;
+
+	i = 0;
+	while (i < N_HASH && ft_strcmp(g_hash_name[i], name))
+		i++;
+	*type = i;
+	return (i < N_HASH);
 }
 
 short	get_flags(char **argv)
@@ -62,20 +74,11 @@ short	get_flags(char **argv)
 	return flags;
 }
 
-t_hash	hash_by_name(char* cmd_name)
+t_hash_f	find_hash_function(t_hash_type type)
 {
-	size_t	i;
-	t_hash hash_arr[2] = { //todo: N = size
- 		{ "md5", &ft_ssl_md5 }, //todo: includes, copy
-	// { "ssh256", &ft_ssl_ssh256 };
-		{ NULL, NULL }
-	};
-	i = 0;
-	while(hash_arr[i].name)
-	{
-		if (!ft_strcmp(cmd_name, hash_arr[i].name))
-			return hash_arr[i];
-		i++;
-	}
-	return hash_arr[i];
+	t_hash_f	hash_functions[N_HASH];
+
+	hash_functions[MD5] = &ft_ssl_md5;
+	hash_functions[SHA256] = &ft_ssl_sha256;
+	return hash_functions[type];
 }

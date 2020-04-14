@@ -12,7 +12,7 @@ void	padding_bits(char* input, t_md5_storage* md5)
 	ft_printf("len = %zu\n", md5->bit_len);
 }
 
-int	ft_ssl_md5(t_command* cmd)
+bool	ft_ssl_md5(t_command* cmd)
 {
 	t_md5_storage md5;
 	cmd->input = "1111111111222222222233333333334444444444555555555566666";

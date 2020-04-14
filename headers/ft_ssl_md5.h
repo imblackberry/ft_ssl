@@ -1,8 +1,8 @@
 #ifndef FT_SSL_MD5_H
 #define FT_SSL_MD5_H
 
-#include <unistd.h>
-#include <stdint.h>
+// #include "ft_ssl.h"
+#include "ft_printf.h"
 
 typedef struct s_command t_command;
 
@@ -14,5 +14,5 @@ typedef struct s_md5_storage
 
 
 void	padding_bits();
-int		ft_ssl_md5(t_command* cmd);
+bool		ft_ssl_md5(t_command* cmd);
 #endif
