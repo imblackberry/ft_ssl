@@ -12,9 +12,9 @@
 
 NAME = ft_ssl
 
-INC = -I ./ft_printf/headers/ -I ./headers/
+INC = -I ./ft_printf/headers/ -I ./ft_printf/libft/includes/ -I ./headers/
 
-SRC = main.c ft_ssl.c ft_ssl_md5.c
+SRC = main.c ft_ssl.c ft_ssl_md5.c ft_ssl_256.c
 
 SRCDIR = sources/
 
@@ -39,7 +39,7 @@ $(LIBFTPRINTF):
 $(OBJDIR):
 	@mkdir $(OBJDIR)
 
-$(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
+$(OBJ) : $(OBJDIR)%.o : $(SRCDIR)%.c ./headers/*.h
 	gcc $(FLAGS) $(INC) -c $< -o $@
 
 debug:
