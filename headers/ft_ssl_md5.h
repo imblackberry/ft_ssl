@@ -1,7 +1,8 @@
 #ifndef FT_SSL_MD5_H
 #define FT_SSL_MD5_H
 
-#include "ft_printf.h"
+#include <unistd.h>
+#include <stdint.h>
 
 typedef struct s_command t_command;
 

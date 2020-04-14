@@ -2,6 +2,8 @@
 #define FT_SSL_H
 
 #include "ft_printf.h"
+#include "ft_ssl_md5.h"
+
 #define ERROR(error_str) { ft_putstr(error_str); }
 #define ERROR_RET(error_str) { ERROR(error_str) return -1; }
 
@@ -9,12 +11,19 @@
 
 enum FLAG
 {
-	FLAG_P = (1 << 1),
-	FLAG_Q = (1 << 2),
-	FLAG_R = (1 << 3),
-	FLAG_S = (1 << 4)
+	READ_STDIN_PRINT_STDOUT = (1 << 1), //p
+	PRINT_ONLY_CHECKSUM = (1 << 2), //q overrides the -r option
+	PRINT_REVERSELY = (1 << 3), //r does nothing when combined with the -p
+	READ_NEXT_ARG_PRINT_STDOUT = (1 << 4) //s
 };
 
+typedef int (*t_hash_f)(struct s_command*);
+
+typedef struct s_hash
+{
+	const char	*name;
+	t_hash_f	function;
+}				t_hash;
 
 typedef struct s_command
 {
@@ -23,13 +32,7 @@ typedef struct s_command
 	short		flags;
 }				t_command;
 
-typedef int (*t_hash_f)(t_command);
 
-typedef struct s_hash
-{
-	const char	*name;
-	t_hash_f	function;
-}				t_hash;
 
 int			ft_ssl(char **argv);
 int			init_command(char **argv, t_command* cmd);

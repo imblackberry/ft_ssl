@@ -11,6 +11,7 @@ int ft_ssl(char **argv)
 	//while
 	//get_flags
 	//input
+	command.hash.function(&command);
 
 	//only files (using flags)
 
@@ -26,7 +27,7 @@ int	init_command(char **argv, t_command* cmd)
 		cmd->hash = hash;
 	else
 	{
-		ERROR_RET("") //todo
+		ERROR_RET("error") //todo
 	}
 	return 0;
 }
@@ -44,13 +45,13 @@ short	get_flags(char **argv)
 		if (str++[0] == '-')
 		{
 			if (!ft_strcmp("p", str))
-				flags |= FLAG_P;
+				flags |= READ_STDIN_PRINT_STDOUT;
 			else if (!ft_strcmp("q", str))
-				flags |= FLAG_Q;
+				flags |= PRINT_ONLY_CHECKSUM;
 			else if (!ft_strcmp("r", str))
-				flags |= FLAG_R;
+				flags |= PRINT_REVERSELY;
 			else if (!ft_strcmp("s", str))
-				flags |= FLAG_S;
+				flags |= READ_NEXT_ARG_PRINT_STDOUT;
 			else //todo: error
 				return flags;
 		}
@@ -64,16 +65,17 @@ short	get_flags(char **argv)
 t_hash	hash_by_name(char* cmd_name)
 {
 	size_t	i;
-	t_hash hash_arr[N] = { //todo: N = size
+	t_hash hash_arr[2] = { //todo: N = size
  		{ "md5", &ft_ssl_md5 }, //todo: includes, copy
 	// { "ssh256", &ft_ssl_ssh256 };
 		{ NULL, NULL }
-	}
+	};
 	i = 0;
-	while(hash_arr[i]->name)
+	while(hash_arr[i].name)
 	{
-		if (!ft_strcmp(cmd_name, hash_arr[i]->name))
+		if (!ft_strcmp(cmd_name, hash_arr[i].name))
 			return hash_arr[i];
+		i++;
 	}
 	return hash_arr[i];
 }
