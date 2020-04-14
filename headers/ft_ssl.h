@@ -38,7 +38,7 @@ typedef struct	s_command
 bool		ft_ssl(char **argv);
 bool		set_hash_type(char *name, t_hash_type *type);
 t_hash_f	find_hash_function(t_hash_type type);
-short		get_flags(char **argv);
+bool		set_flag(char *str, short *flags);
 bool		launch(t_command *cmd, t_hash_f hash_function, char **argv);
 
 #endif

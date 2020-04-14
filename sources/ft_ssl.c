@@ -14,22 +14,23 @@ bool ft_ssl(char **argv)
 	hash_function = find_hash_function(cmd.hash_type);
 	if (launch(&cmd, hash_function, argv) == false)
 		return false;
-	// while ()
-	// {
-
-	// 	hash_function(&cmd);
-	// }
-	//get_flags
-	//input
-
-	//only files (using flags)
-
 	return 0;
 }
 
 bool	launch(t_command *cmd, t_hash_f hash_function, char **argv)
 {
+	size_t	i;
+	char	*arg;
 
+	i = 2;
+	while ((arg = argv[i]))
+	{
+		if (arg++[0] == '-')
+			set_flag(argv[i], &cmd->flags);
+		// set_input() check here if file/stdin/str or nothing
+		hash_function(&cmd);
+		i++;
+	}
 
 }
 
@@ -44,34 +45,21 @@ bool	set_hash_type(char *name, t_hash_type *type)
 	return (i < N_HASH);
 }
 
-short	get_flags(char **argv)
+bool	set_flag(char *str, short *flags)
 {
-	char	*str;
-	short	flags;
-	int		i;
-
-	flags = 0;
-	i = 2;
-	while ((str = argv[i++]))
+	if (!ft_strcmp("p", str))
+		*flags |= READ_STDIN_PRINT_STDOUT;
+	else if (!ft_strcmp("q", str))
 	{
-		if (str++[0] == '-')
-		{
-			if (!ft_strcmp("p", str))
-				flags |= READ_STDIN_PRINT_STDOUT;
-			else if (!ft_strcmp("q", str))
-				flags |= PRINT_ONLY_CHECKSUM;
-			else if (!ft_strcmp("r", str))
-				flags |= PRINT_REVERSELY;
-			else if (!ft_strcmp("s", str))
-				flags |= READ_NEXT_ARG_PRINT_STDOUT;
-			else //todo: error
-				return flags;
-		}
-		else
-			//todo: error
-			return flags;
+		*flags |= PRINT_ONLY_CHECKSUM;
+		ft_bitset(flags, 0, PRINT_REVERSELY);//check
 	}
-	return flags;
+	else if (!ft_strcmp("r", str)) //&& !PRINT_ONLY_CHECKSUM ? test
+		*flags |= PRINT_REVERSELY;
+	else if (!ft_strcmp("s", str))
+		*flags |= READ_NEXT_ARG_PRINT_STDOUT;
+	else //todo: error
+		ERROR_RET("error flag")
 }
 
 t_hash_f	find_hash_function(t_hash_type type)
