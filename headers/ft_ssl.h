@@ -3,13 +3,8 @@
 
 #include "ft_printf.h"
 #include "ft_ssl_md5.h"
-#include "ft_ssl_256.h"
-
-#define ERROR(error_str) { ft_putstr(error_str); }
-#define ERROR_RET(error_str) { ERROR(error_str) return false; }
-
-#define ERR_USAGE "usage: ft_ssl command [command opts] [command args]"
-
+#include "ft_ssl_sha256.h"
+#include "errors.h"
 
 typedef enum	s_flags
 {
@@ -26,19 +21,21 @@ typedef enum		s_hash_type
 	N_HASH
 }					t_hash_type;
 
+extern const char *g_hash_name[N_HASH];
+
 typedef bool	(*t_hash_f)(struct s_command*);
 
 typedef struct	s_command
 {
 	t_hash_type	hash_type;
 	char		*input;
-	short		flags;
+	uint8_t		flags;
 }				t_command;
 
 bool		ft_ssl(char **argv);
 bool		set_hash_type(char *name, t_hash_type *type);
 t_hash_f	find_hash_function(t_hash_type type);
-bool		set_flag(char *str, short *flags);
+bool		set_flag(char *str, uint8_t *flags);
 bool		launch(t_command *cmd, t_hash_f hash_function, char **argv);
 
 #endif
