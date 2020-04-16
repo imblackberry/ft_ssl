@@ -13,6 +13,7 @@ bool ft_ssl(int argc, char **argv)
 		error_usage_msg(argv[1]);
 		return false;
 	}
+	(void)argc;
 	// else if (argc == 2)
 	// 	cmd.flags = READ_STDIN_PRINT_STDOUT;
 	if (!launch(&cmd, find_hash_function(cmd.hash_type), argv))
@@ -30,7 +31,7 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **argv)
 	areFilesStarted = false;
 	while ((arg = argv[i]))
 	{
-		if (!areFilesStarted)
+		if (!areFilesStarted) //todo optimize
 		{
 			if (arg[0] == '-')
 				set_flag(arg + 1, &cmd->flags);
@@ -39,6 +40,7 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **argv)
 		}
 		if (set_input(argv, &i, cmd, areFilesStarted)) //check here if file/stdin/str or nothing
 			hash_function(cmd);
+		
 		i++;
 	}
 	return true;

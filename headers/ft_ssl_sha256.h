@@ -4,6 +4,6 @@
 #include "ft_printf.h"
 #include "hash_structs.h"
 
-bool	ft_ssl_sha256(t_command *cmd);
+char	*ft_ssl_sha256(t_command *cmd);
 
 #endif

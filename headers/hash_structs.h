@@ -19,6 +19,6 @@ typedef struct	s_command
 	uint8_t		flags;
 }				t_command;
 
-typedef bool	(*t_hash_f)(struct s_command*);
+typedef char*	(*t_hash_f)(struct s_command*);
 
 #endif

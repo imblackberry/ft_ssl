@@ -13,5 +13,5 @@ typedef struct s_md5_storage
 
 
 void	padding_bits();
-bool		ft_ssl_md5(t_command* cmd);
+char	*ft_ssl_md5(t_command* cmd);
 #endif

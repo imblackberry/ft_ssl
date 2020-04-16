@@ -12,7 +12,7 @@ void	padding_bits(char* input, t_md5_storage* md5)
 	ft_printf("len = %zu\n", md5->bit_len);
 }
 
-bool	ft_ssl_md5(t_command* cmd)
+char	*ft_ssl_md5(t_command* cmd)
 {
 	t_md5_storage md5;
 	
@@ -22,5 +22,5 @@ bool	ft_ssl_md5(t_command* cmd)
 	//append length
 	//init buffer
 	//algirithm/calc?
-	return 0;
+	return NULL;
 }
