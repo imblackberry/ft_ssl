@@ -5,5 +5,5 @@ int	main(int argc, char **argv)
 	(void)argc;
 	if (argc < 2)
 		ERROR_RET(ERR_USAGE)
-	return ft_ssl(argv);
+	return ft_ssl(argc, argv);
 }

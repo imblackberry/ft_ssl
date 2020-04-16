@@ -1,6 +1,8 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
+#include "libft.h"
+
 #define ERROR(error_str) { ft_putstr(error_str); }
 #define ERROR_RET(error_str) { ERROR(error_str) return false; }
 

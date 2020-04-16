@@ -1,5 +1,5 @@
 #include "errors.h"
-#include "ft_ssl.h"
+#include "hash_structs.h"
 
 void	error_usage_msg(char *invalid_cmd)
 {
