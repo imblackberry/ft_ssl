@@ -2,43 +2,42 @@
 
 const char	*g_hash_name[N_HASH] = { "md5", "sha256"};
 
-bool ft_ssl(int argc, char **argv)
+bool ft_ssl(char **parameters)
 {
 	t_command	cmd;
 
-	if (!argv)
+	if (!parameters || !parameters[0])
 		return false;
-	if (!set_hash_type(argv[1], &(cmd.hash_type)))
+	if (!set_hash_type(parameters[1], &(cmd.hash_type)))
 	{
-		error_usage_msg(argv[1]);
+		error_usage_msg(parameters[1]);
 		return false;
 	}
-	(void)argc;
 	// else if (argc == 2)
 	// 	cmd.flags = READ_STDIN_PRINT_STDOUT;
-	if (!launch(&cmd, find_hash_function(cmd.hash_type), argv))
+	if (!launch(&cmd, find_hash_function(cmd.hash_type), parameters))
 		return false;
 	return 0;
 }
 
-bool	launch(t_command *cmd, t_hash_f hash_function, char **argv)
+bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 {
 	size_t	i;
-	char	*arg;
+	char	*parameter;
 	bool	areFilesStarted;
 
 	i = 2;
 	areFilesStarted = false;
-	while ((arg = argv[i]))
+	while ((parameter = parameters[i]))
 	{
 		if (!areFilesStarted) //todo optimize
 		{
-			if (arg[0] == '-')
-				set_flag(arg + 1, &cmd->flags);
+			if (parameter[0] == '-')
+				set_flag(parameter + 1, &cmd->flags);
 			else
 				areFilesStarted = true;
 		}
-		if (set_input(argv, &i, cmd, areFilesStarted)) //check here if file/stdin/str or nothing
+		if (set_input(parameters, &i, cmd, areFilesStarted))
 			hash_function(cmd);
 		
 		i++;
