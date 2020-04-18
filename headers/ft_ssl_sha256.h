@@ -2,7 +2,7 @@
 #define FT_SSL_SHA256
 
 #include "ft_printf.h"
-#include "hash_structs.h"
+#include "hash.h"
 
 char	*ft_ssl_sha256(t_command *cmd);
 

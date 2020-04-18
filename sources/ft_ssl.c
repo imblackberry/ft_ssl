@@ -1,16 +1,14 @@
 #include "ft_ssl.h"
 
-const char	*g_hash_name[N_HASH] = { "md5", "sha256"};
-
 bool ft_ssl(char **parameters)
 {
 	t_command	cmd;
 
 	if (!parameters || !parameters[0])
 		return false;
-	if (!set_hash_type(parameters[1], &(cmd.hash_type)))
+	if (!set_hash_type(parameters[0], &(cmd.hash_type)))
 	{
-		error_usage_msg(parameters[1]);
+		error_usage_msg(parameters[0]);
 		return false;
 	}
 	// else if (argc == 2)
@@ -26,7 +24,7 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 	char	*parameter;
 	bool	areFilesStarted;
 
-	i = 2;
+	i = 1;
 	areFilesStarted = false;
 	while ((parameter = parameters[i]))
 	{
@@ -38,22 +36,14 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 				areFilesStarted = true;
 		}
 		if (set_input(parameters, &i, cmd, areFilesStarted))
+		{
 			hash_function(cmd);
+			ft_strdel(&(cmd->input));
+		}
 		
 		i++;
 	}
 	return true;
-}
-
-bool	set_hash_type(char *name, t_hash_type *type)
-{
-	size_t i;
-
-	i = 0;
-	while (i < N_HASH && ft_strcmp(g_hash_name[i], name))
-		i++;
-	*type = i;
-	return (i < N_HASH);
 }
 
 bool	set_flag(char *str, uint8_t *flags)
@@ -74,11 +64,14 @@ bool	set_flag(char *str, uint8_t *flags)
 	return true;
 }
 
-t_hash_f	find_hash_function(t_hash_type type)
+bool	ft_ssl_stdin()
 {
-	t_hash_f	hash_functions[N_HASH];
+	char **parameters;
+	bool ret;
 
-	hash_functions[MD5] = &ft_ssl_md5;
-	hash_functions[SHA256] = &ft_ssl_sha256;
-	return hash_functions[type];
+	parameters = get_parameters_stdin();
+	ret = ft_ssl(parameters);
+	// free(parameters[0]);
+	// free(parameters);
+	return ret;
 }

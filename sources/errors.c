@@ -1,5 +1,4 @@
 #include "errors.h"
-#include "hash_structs.h"
 
 void	error_usage_msg(char *invalid_cmd)
 {
@@ -12,4 +11,9 @@ void	error_usage_msg(char *invalid_cmd)
 	while (i < N_HASH)
 		ft_printf("%s\n", g_hash_name[i++]);
 	ft_printf("\nCipher commands:\n");
+}
+
+void	error_cmd(t_hash_type hash_type, char *msg)
+{
+	ft_printf("%s: %s", g_hash_name[hash_type], msg);
 }

@@ -1,5 +1,5 @@
 #include "ft_ssl_md5.h"
-#include "hash_structs.h"
+#include "hash.h"
 
 void	padding_bits(char* input, t_md5_storage* md5)
 {
@@ -18,7 +18,7 @@ char	*ft_ssl_md5(t_command* cmd)
 	
 	cmd->input = "1111111111222222222233333333334444444444555555555566666";
 	ft_putstr(cmd->input);
-	padding_bits(cmd->input, &md5);	//padding bits
+	// padding_bits(cmd->input, &md5);	//padding bits
 	//append length
 	//init buffer
 	//algirithm/calc?
