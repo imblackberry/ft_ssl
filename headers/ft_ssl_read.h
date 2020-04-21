@@ -1,8 +1,9 @@
-#ifndef READ_H
-#define READ_H
+#ifndef FT_SSL_READ_H
+#define FT_SSL_READ_H
 
-#include "hash.h"
+#include "ft_ssl_hash.h"
 #include "errors.h"
+
 
 typedef enum	s_flags
 {
@@ -13,7 +14,7 @@ typedef enum	s_flags
 }				t_flags;
 
 bool	set_input(char **argv, size_t *i, t_command *cmd, bool isFilesStarted);
-bool	read_fd(int fd, t_command *cmd);
+bool	read_fd(int fd, char **input);
 bool	read_file(char *file_name, t_command *cmd);
 bool	read_next_arg(char *parameter, t_command *cmd);
 char	**get_parameters_stdin();

@@ -11,8 +11,6 @@ bool ft_ssl(char **parameters)
 		error_usage_msg(parameters[0]);
 		return false;
 	}
-	// else if (argc == 2)
-	// 	cmd.flags = READ_STDIN_PRINT_STDOUT;
 	if (!launch(&cmd, find_hash_function(cmd.hash_type), parameters))
 		return false;
 	return 0;
@@ -38,7 +36,8 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 		if (set_input(parameters, &i, cmd, areFilesStarted))
 		{
 			hash_function(cmd);
-			ft_strdel(&(cmd->input));
+			ft_strdel(&cmd->input);
+			ft_putstr("DEL\n");
 		}
 		
 		i++;
@@ -70,8 +69,8 @@ bool	ft_ssl_stdin()
 	bool ret;
 
 	parameters = get_parameters_stdin();
-	ret = ft_ssl(parameters);
-	// free(parameters[0]);
-	// free(parameters);
+	ret = ft_ssl(parameters); //todo set flag -p
+	free(parameters[0]);
+	free(parameters);
 	return ret;
 }

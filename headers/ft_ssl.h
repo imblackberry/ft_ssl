@@ -5,7 +5,7 @@
 #include "ft_ssl_md5.h"
 #include "ft_ssl_sha256.h"
 #include "errors.h"
-#include "hash.h"
+#include "ft_ssl_hash.h"
 #include "ft_ssl_read.h"
 
 bool		ft_ssl(char **parameters);

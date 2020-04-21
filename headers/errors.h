@@ -2,10 +2,10 @@
 #define ERRORS_H
 
 
-#include "hash.h"
+#include "ft_ssl_hash.h"
 #include "libft.h"
 
-#define ERROR(error_str) { ft_putstr(error_str); }
+#define ERROR(error_str) { ft_putstr_fd(error_str, 2); }
 #define ERROR_RET(error_str) { ERROR(error_str) return false; }
 
 #define ERR_USAGE "usage: ft_ssl command [command opts] [command args]\n"

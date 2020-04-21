@@ -3,37 +3,49 @@
 bool	set_input(char **parameters, size_t *i, t_command *cmd, bool areFilesStarted)
 {
 	if (areFilesStarted)
-		read_file(parameters[*i], cmd);
+		return read_file(parameters[*i], cmd);
 	else if (cmd->flags & READ_NEXT_ARG_PRINT_STDOUT)
-		read_next_arg(parameters[++(*i)], cmd);
+		return read_next_arg(parameters[++(*i)], cmd);
 	else if (cmd->flags & READ_STDIN_PRINT_STDOUT)
-		read_fd(0, cmd);
+		return read_fd(0, &(cmd->input));
 	else
 		return false;
 	return true;
 }
 
-bool	read_fd(int fd, t_command *cmd)
+bool	read_fd(int fd, char **input)
 {
-	(void)fd;
-	(void)cmd;
-	ft_printf("from_stdin\n");
+	char buff[BUFF_SIZE + 1];
+	size_t bytes_read;
+	char *tmp;
+
+	*input = ft_strnew(0);
+	while((bytes_read = read(fd, buff, BUFF_SIZE)))
+	{
+		buff[bytes_read] = '\0';
+		tmp = *input;
+		*input = ft_strjoin(*input, buff);
+		ft_strdel(&tmp);
+	}
+	ft_printf("read_fd\n");
+	ft_printf("INPUT: |%s|\n", *input);
 	return true;
 }
 
 bool	read_file(char *file_name, t_command *cmd)
 {
-	int fd = 0;
-
-	(void)file_name;
-	read_fd(fd, cmd);
-	ft_printf("from_file\n");
-	return true;
+	int		fd;
+	bool	ret;
+	fd = open(file_name, O_RDONLY);
+	ret = read_fd(fd, &(cmd->input));
+	close(fd);
+	ft_printf("read_file\n");
+	return ret;
 }
 
 bool	read_next_arg(char *parameter, t_command *cmd)
 {
-	ft_printf("from_arg\n");
+	ft_printf("read_arg\n");
 	if (parameter)
 		cmd->input = ft_strdup(parameter);
 	else
@@ -41,6 +53,7 @@ bool	read_next_arg(char *parameter, t_command *cmd)
 		error_cmd(cmd->hash_type, "option requires an argument -- s\n");
 		return false;
 	}
+	ft_printf("INPUT: |%s|\n", cmd->input);
 	return true;
 }
 

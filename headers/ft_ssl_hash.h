@@ -1,5 +1,5 @@
-#ifndef HASH_STRUCTS_H
-#define HASH_STRUCTS_H
+#ifndef FT_SSL_HASH_H
+#define FT_SSL_HASH_H
 
 #include "ft_printf.h"
 

@@ -2,7 +2,7 @@
 #define FT_SSL_MD5_H
 
 #include "ft_printf.h"
-#include "hash.h"
+#include "ft_ssl_hash.h"
 
 typedef struct s_md5_storage
 {
