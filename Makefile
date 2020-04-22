@@ -15,7 +15,7 @@ NAME = ft_ssl
 INC = -I ./ft_printf/headers/ -I ./ft_printf/libft/includes/ -I ./headers/
 
 SRC = main.c ft_ssl.c ft_ssl_md5.c ft_ssl_sha256.c errors.c ft_ssl_read.c \
-	hash.c
+	ft_ssl_hash.c
 
 SRCDIR = sources/
 

@@ -24,39 +24,36 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 
 	i = 1;
 	areFilesStarted = false;
-	while ((parameter = parameters[i]))
+	while (true)
 	{
-		if (!areFilesStarted) //todo optimize
-		{
-			if (parameter[0] == '-')
-				set_flag(parameter + 1, &cmd->flags);
-			else
-				areFilesStarted = true;
-		}
+		parameter = parameters[i];
+		if (!areFilesStarted && !set_flag(parameter, &cmd->flags))
+			areFilesStarted = true;
 		if (set_input(parameters, &i, cmd, areFilesStarted))
-		{
-			hash_function(cmd);
-			ft_strdel(&cmd->input);
-			ft_putstr("DEL\n");
-		}
-		
+			call_and_free(hash_function, cmd);
+		if (!parameter)
+			break ;
 		i++;
 	}
 	return true;
 }
 
-bool	set_flag(char *str, uint8_t *flags)
+bool	set_flag(char *parameter, uint8_t *flags)
 {
-	if (!ft_strcmp("p", str))
+	if (parameter && parameter[0] && parameter[0] == '-')
+		parameter++;
+	else
+		return false;
+	if (ft_strequ("p", parameter))
 		*flags |= READ_STDIN_PRINT_STDOUT;
-	else if (!ft_strcmp("q", str))
+	else if (ft_strequ("q", parameter))
 	{
 		*flags |= PRINT_ONLY_CHECKSUM;
 		// ft_bitset(flags, 0, PRINT_REVERSELY);//check
 	}
-	else if (!ft_strcmp("r", str)) //&& !PRINT_ONLY_CHECKSUM ? test
+	else if (ft_strequ("r", parameter)) //&& !PRINT_ONLY_CHECKSUM ? test
 		*flags |= PRINT_REVERSELY;
-	else if (!ft_strcmp("s", str))
+	else if (ft_strequ("s", parameter))
 		*flags |= READ_NEXT_ARG_PRINT_STDOUT;
 	else //todo: error
 		ERROR_RET("error flag")

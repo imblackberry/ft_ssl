@@ -21,3 +21,9 @@ bool	set_hash_type(char *name, t_hash_type *type)
 	*type = i;
 	return (i < N_HASH);
 }
+
+void	call_and_free(t_hash_f hash_function, t_command *cmd)
+{
+	hash_function(cmd);
+	ft_strdel(&cmd->input);
+}

@@ -10,7 +10,7 @@
 
 bool		ft_ssl(char **parameters);
 bool		ft_ssl_stdin();
-bool		set_flag(char *str, uint8_t *flags);
+bool		set_flag(char *parameter, uint8_t *flags);
 bool		launch(t_command *cmd, t_hash_f hash_function, char **parameters);
 
 #endif

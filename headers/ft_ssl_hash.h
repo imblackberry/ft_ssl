@@ -22,7 +22,7 @@ typedef struct	s_command
 typedef char*	(*t_hash_f)(struct s_command*);
 
 
-bool	set_hash_type(char *name, t_hash_type *type);
+bool		set_hash_type(char *name, t_hash_type *type);
 t_hash_f	find_hash_function(t_hash_type type);
-
+void		call_and_free(t_hash_f hash_function, t_command *cmd);
 #endif
