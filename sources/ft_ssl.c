@@ -11,7 +11,7 @@ bool ft_ssl(char **parameters)
 		error_usage_msg(parameters[0]);
 		return false;
 	}
-	if (!launch(&cmd, find_hash_function(cmd.hash_type), parameters))
+	if (!launch(&cmd, find_hash_function(cmd.hash_type), ++parameters))
 		return false;
 	return 0;
 }
@@ -19,19 +19,17 @@ bool ft_ssl(char **parameters)
 bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 {
 	size_t	i;
-	char	*parameter;
 	bool	areFilesStarted;
 
-	i = 1;
+	i = 0;
 	areFilesStarted = false;
-	while (true)
+	while (true) //todo test!
 	{
-		parameter = parameters[i];
-		if (!areFilesStarted && !set_flag(parameter, &cmd->flags))
+		if (!areFilesStarted && !set_flag(parameters[i], &cmd->flags))
 			areFilesStarted = true;
 		if (set_input(parameters, &i, cmd, areFilesStarted))
 			call_and_free(hash_function, cmd);
-		if (!parameter)
+		if (!parameters[i])
 			break ;
 		i++;
 	}

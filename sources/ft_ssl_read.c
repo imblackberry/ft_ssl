@@ -12,7 +12,7 @@ bool	set_input(char **parameters, size_t *i, t_command *cmd, bool areFilesStarte
 	if (cmd->flags & READ_STDIN_PRINT_STDOUT)
 		return read_fd(0, &(cmd->input));
 	else if (cmd->flags & READ_NEXT_ARG_PRINT_STDOUT)
-		return read_next_arg(parameters[++(*i)], cmd);
+		return read_next_arg(parameters, i, cmd);
 	else
 		return false;
 	return true;
@@ -50,11 +50,11 @@ bool	read_file(const char *file_name, t_command *cmd)
 	return ret;
 }
 
-bool	read_next_arg(char *parameter, t_command *cmd)
+bool	read_next_arg(char **parameters, size_t *i, t_command *cmd)
 {
 	ft_printf("read_arg\n");
-	if (parameter)
-		cmd->input = ft_strdup(parameter);
+	if (parameters[(*i)++] && parameters[*i])
+		cmd->input = ft_strdup(parameters[*i]);
 	else
 	{
 		error_cmd(cmd->hash_type, "option requires an argument -- s\n");
