@@ -11,12 +11,11 @@ bool ft_ssl(char **parameters)
 		error_usage_msg(parameters[0]);
 		return false;
 	}
-	if (!launch(&cmd, find_hash_function(cmd.hash_type), ++parameters))
-		return false;
-	return 0;
+	launch(&cmd, find_hash_function(cmd.hash_type), ++parameters);
+	return true;
 }
 
-bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
+void	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 {
 	size_t	i;
 	bool	areFilesStarted;
@@ -33,7 +32,6 @@ bool	launch(t_command *cmd, t_hash_f hash_function, char **parameters)
 			break ;
 		i++;
 	}
-	return true;
 }
 
 bool	set_flag(char *parameter, uint8_t *flags)
@@ -58,14 +56,17 @@ bool	set_flag(char *parameter, uint8_t *flags)
 	return true;
 }
 
-bool	ft_ssl_stdin()
+void	ft_ssl_stdin()
 {
 	char **parameters;
-	bool ret;
+	bool is_launched;
 
-	parameters = get_parameters_stdin();
-	ret = ft_ssl(parameters); //todo set flag -p
-	free(parameters[0]);
-	free(parameters);
-	return ret;
+	is_launched = false;
+	while (!is_launched)
+	{
+		parameters = get_parameters_stdin();
+		is_launched = ft_ssl(parameters); //todo set flag -q
+		free(parameters[0]);
+		free(parameters);
+	}
 }

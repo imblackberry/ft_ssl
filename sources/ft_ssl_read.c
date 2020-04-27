@@ -70,7 +70,6 @@ char	**get_parameters_stdin()
 	char **parameters;
 
 	line = NULL;
-	ERROR(ERR_USAGE)
 	get_next_line(0, &line);
 	parameters = ft_strsplit_by_str(line, "\t \r"); //todo split string
 	ft_strdel(&line);
